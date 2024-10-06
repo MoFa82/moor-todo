@@ -9,7 +9,7 @@ class Group:
         self.title = title
 
     def del_task(self, index):
-        pass
+        del(self.tasks[index])
 
     def add_task(self, task):
         self.tasks.append(task)
