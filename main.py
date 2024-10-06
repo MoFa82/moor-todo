@@ -7,7 +7,6 @@ class Group:
 
     def set_title(self, title):
         self.title = title
-        return "Title is setted"
 
     def del_task(self, index):
         del(self.tasks[index])
