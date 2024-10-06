@@ -1,5 +1,13 @@
 # a cli todo app with ant theme
 
+class Group:
+    def __init__(self, title):
+        self.title = title
+        self.task = []
+
+    def set_title(self, title):
+        pass
+
 class Task:
     def __init__(self, desc, checked):
         self.desc = desc
