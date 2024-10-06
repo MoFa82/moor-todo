@@ -2,17 +2,17 @@
 
 class Group:
     def __init__(self, title):
-        self.title = title
-        self.task = []
+        self.set_title(title)
+        self.tasks = []
 
     def set_title(self, title):
-        pass
+        self.title = title
 
     def del_task(self, index):
         pass
 
     def add_task(self, task):
-        pass
+        self.tasks.append(task)
 
 class Task:
     def __init__(self, desc, checked):
