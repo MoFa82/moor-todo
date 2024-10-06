@@ -17,9 +17,15 @@ class Group:
         return "Task added succesfully"
 
 class Task:
-    def __init__(self, desc, checked):
+    def __init__(self, desc, marked):
+        set_desc(desc)
+        self.marked = marked
+    
+    def mark(self)
+        self.marked = !self.marked
+           
+    def set_desc(self, desc):
         self.desc = desc
-        self.checked = checked
 
 def read_from_memory():
     pass
