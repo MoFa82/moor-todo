@@ -7,12 +7,15 @@ class Group:
 
     def set_title(self, title):
         self.title = title
+        return "Title is setted"
 
     def del_task(self, index):
         del(self.tasks[index])
+        return "Deleted the wanted task"
 
     def add_task(self, task):
         self.tasks.append(task)
+        return "Task added succesfully"
 
 class Task:
     def __init__(self, desc, checked):
