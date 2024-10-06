@@ -8,6 +8,12 @@ class Group:
     def set_title(self, title):
         pass
 
+    def del_task(self, index):
+        pass
+
+    def add_task(self, task):
+        pass
+
 class Task:
     def __init__(self, desc, checked):
         self.desc = desc
