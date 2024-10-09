@@ -30,6 +30,9 @@ class Task:
 def read_from_memory():
     pass
 
+def write_to_memory():
+    pass
+
 def main_menu():
     command = ""
     while command != "0" or command != "exit":
