@@ -21,8 +21,8 @@ class Task:
         set_desc(desc)
         self.marked = marked
     
-    def mark(self)
-        self.marked = !self.marked
+    def mark(self):
+        self.marked != self.marked
            
     def set_desc(self, desc):
         self.desc = desc
@@ -40,8 +40,8 @@ def main_menu():
         print_main_menu()
         command = input()
 
-        if command == "1":i
+        if command == "1":
             print("Enter the title for the group:")
             title = input()
             group = Group(title)
-
+main_menu()
