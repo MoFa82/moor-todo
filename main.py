@@ -1,5 +1,5 @@
 # a cli todo app with ant theme
-
+#TODO: consider making a menu class might be useful for future use 
 class Group:
     def __init__(self, title):
         self.set_title(title)
@@ -18,30 +18,31 @@ class Group:
 
 class Task:
     def __init__(self, desc, marked):
-        set_desc(desc)
+        self.set_desc(desc)
         self.marked = marked
     
     def mark(self):
         self.marked != self.marked
-           
+
     def set_desc(self, desc):
         self.desc = desc
 
 def read_from_memory():
     pass
 
-def print_main_menu():
-        print("hello, I'm Moori!\nI'm here to help you doing your tasks\nWhat can I do for you")
-        print("0 Exit\t1 Add new group\t")
-
 def main_menu():
     command = ""
     while command != "0" or command != "exit":
-        print_main_menu()
+        print("hello, I'm Moori!\nI'm here to help you doing your tasks\nWhat can I do for you")
+        print("0 Exit\t1 Add new group\t")
+
         command = input()
 
         if command == "1":
+            # new_group()
             print("Enter the title for the group:")
             title = input()
             group = Group(title)
+            
+            
 main_menu()
