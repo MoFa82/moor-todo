@@ -37,4 +37,3 @@ def main_menu():
     command = input()
     while command != 0 or command != "exit":
         pass
-task = Task()
