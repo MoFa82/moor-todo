@@ -32,8 +32,16 @@ def read_from_memory():
 
 def print_main_menu():
         print("hello, I'm Moori!\nI'm here to help you doing your tasks\nWhat can I do for you")
+        print("0 Exit\t1 Add new group\t")
 
 def main_menu():
-    command = input()
-    while command != 0 or command != "exit":
-        pass
+    command = ""
+    while command != "0" or command != "exit":
+        print_main_menu()
+        command = input()
+
+        if command == "1":i
+            print("Enter the title for the group:")
+            title = input()
+            group = Group(title)
+
