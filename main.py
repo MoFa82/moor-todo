@@ -31,6 +31,7 @@ def read_from_disk():
     pass
 
 def main_menu():
+    groups = []
     command = ""
     while command != "0" or command != "exit":
         print("hello, I'm Moori!\nI'm here to help you doing your tasks\nWhat can I do for you")
@@ -43,6 +44,7 @@ def main_menu():
             print("Enter the title for the group:")
             title = input()
             group = Group(title)
+            groups.append(group)
             
             
 main_menu()
