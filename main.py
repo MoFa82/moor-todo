@@ -18,19 +18,16 @@ class Group:
 
 class Task:
     def __init__(self, desc, marked):
-        self.set_desc(desc)
+        set_desc(desc)
         self.marked = marked
     
     def mark(self):
         self.marked != self.marked
-
+           
     def set_desc(self, desc):
         self.desc = desc
 
-def read_from_memory():
-    pass
-
-def write_to_memory():
+def read_from_disk():
     pass
 
 def main_menu():
