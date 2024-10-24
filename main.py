@@ -37,7 +37,7 @@ def task_menu(group):
         print("OK CANCELED!")
     else:
         print(group.add_task(task))
-        
+        return group
 
 
 def main_menu():
@@ -54,8 +54,12 @@ def main_menu():
             print("Enter the title for the group:")
             title = input()
             group = Group(title)
+            group = task_menu(group)
             groups.append(group)
-            
+
+        if command == "0" or command.lower() == "exit":
+            print("Exiting")
+            break
             
             
 main_menu()
