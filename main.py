@@ -18,11 +18,11 @@ class Group:
 
     def print_tasks(self):
         for i in self.tasks:
-            print(i.get_desc() + " " + i.get_marked())
+            print(i.get_desc() + " " + str(i.get_marked()))
 
 class Task:
-    def __init__(self, desc, marked):
-        set_desc(desc)
+    def __init__(self, desc, marked=False):
+        self.set_desc(desc)
         self.marked = marked
     
     def mark(self):
@@ -45,11 +45,12 @@ def task_menu(group):
     while True:
 
         print("Enter the task to add to the group\nIf you do not want enter cancel\n")
-        task = input()
-        if task == "cancel":
+        inp = input()
+        if inp == "cancel":
             print("OK CANCELED!\n")
             break
         else:
+            task = Task(inp)
             print(group.add_task(task))
     return group
 
