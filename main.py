@@ -1,5 +1,10 @@
 # a cli todo app with ant theme
 #TODO: consider making a menu class might be useful for future use 
+#TODO: Get the ascii art of an ant
+#TODO: saving the info into json matters
+#TODO: adding the ability to set timer
+#TODO: Adding the colors styles needed to make the i/o more beautiful
+
 class Group:
     def __init__(self, title):
         self.set_title(title)
