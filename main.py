@@ -16,6 +16,10 @@ class Group:
         self.tasks.append(task)
         return "Task added succesfully"
 
+    def print_tasks(self):
+        for i in self.tasks:
+            print(i.get_desc() + " " + i.get_marked())
+
 class Task:
     def __init__(self, desc, marked):
         set_desc(desc)
@@ -27,39 +31,55 @@ class Task:
     def set_desc(self, desc):
         self.desc = desc
 
+    def get_desc(self):
+        return self.desc
+
+    def get_marked(self):
+        return self.marked
+
 def read_from_disk():
     pass
 
 def task_menu(group):
-    print("Enter the task to add to the group\nIf you do not want enter cancel")
-    task = input()
-    if task == "cancel":
-        print("OK CANCELED!")
-    else:
-        print(group.add_task(task))
-        return group
+    
+    while True:
+
+        print("Enter the task to add to the group\nIf you do not want enter cancel\n")
+        task = input()
+        if task == "cancel":
+            print("OK CANCELED!\n")
+            break
+        else:
+            print(group.add_task(task))
+    return group
 
 
 def main_menu():
     groups = []
     command = ""
     while command != "0" or command != "exit":
-        print("hello, I'm Moori!\nI'm here to help you doing your tasks\nWhat can I do for you")
-        print("0 Exit\t1 Add new group\t")
+        print("hello, I'm Moori!\nI'm here to help you doing your tasks\nWhat can I do for you?\n")
+        print("0 Exit\t1 Add new group\t2 Show all groups and tasks\n")
 
         command = input()
 
         if command == "1":
             # new_group()
-            print("Enter the title for the group:")
+            print("Enter the title for the group:\n")
             title = input()
             group = Group(title)
             group = task_menu(group)
             groups.append(group)
 
         if command == "0" or command.lower() == "exit":
-            print("Exiting")
+            print("Exiting\n")
             break
-            
-            
-main_menu()
+
+        if command == "2":
+            print("========All groups=========")
+            for i in groups:
+                i.print_tasks()
+                print("\n")
+
+if __name__ == "__main__" : 
+    main_menu()
