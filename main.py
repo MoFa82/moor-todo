@@ -30,6 +30,16 @@ class Task:
 def read_from_disk():
     pass
 
+def task_menu(group):
+    print("Enter the task to add to the group\nIf you do not want enter cancel")
+    task = input()
+    if task == "cancel":
+        print("OK CANCELED!")
+    else:
+        print(group.add_task(task))
+        
+
+
 def main_menu():
     groups = []
     command = ""
@@ -45,6 +55,7 @@ def main_menu():
             title = input()
             group = Group(title)
             groups.append(group)
+            
             
             
 main_menu()
