@@ -3,7 +3,7 @@
 #TODO: Get the ascii art of an ant
 #TODO: saving the info into json matters
 #TODO: adding the ability to set timer
-#TODO: Adding the colors styles needed to make the i/o more beautiful
+#TODO: Adding the colors styles needed to make the i/o more beautiful and emojies too
 
 class Group:
     def __init__(self, title):
@@ -27,7 +27,7 @@ class Group:
     def print_group(self):
         print("======== " + self.get_title() + " ========")    
         for i in self.tasks:
-            print(i.get_desc() + " " + str(i.get_marked()))
+            print(str(i.get_marked()) + " " + i.get_desc())
 
 class Task:
     def __init__(self, desc, marked=False):
@@ -52,14 +52,22 @@ def read_from_disk():
 def save_to_disk():
     pass 
 
-def task_menu(group):
-    
-    while True:
+def new_group():
+    pass
 
-        print("Enter the task to add to the group\nIf you do not want enter cancel\n")
+def print_all_groups(groups):
+    print("========All groups=========")
+    for i in range(len(groups)):
+        print(i)    
+        groups[i].print_group()
+        print("+++++++++++++\n")
+
+def add_task_to_group(group):
+    while True:
+        print("Enter the task to add to the group\nIf you do not want enter cancel")
         inp = input()
         if inp == "cancel":
-            print("OK CANCELED!\n")
+            print("OK CANCELED!")
             break
         else:
             task = Task(inp)
@@ -72,33 +80,27 @@ def main_menu():
     command = ""
     while command != "0" or command != "exit":
         print("hello, I'm Moori!\nI'm here to help you doing your tasks\nWhat can I do for you?\n")
-        print("0- Exit\t1- Add new group\t2- Show all groups and tasks\n3- Toggle between groups")
+        print("0- Exit\n1- Add new group\n2- Show all groups and tasks\n3- Toggle between groups")
 
         command = input()
 
         if command == "1":
             # new_group()
-            print("Enter the title for the group:\n")
+            print("Enter the title for the group:")
             title = input()
             group = Group(title)
-            group = task_menu(group)
+            group = add_task_to_group(group)
             groups.append(group)
 
         elif command == "0" or command.lower() == "exit":
-            print("Exiting\n")
+            print("Exiting")
             break
 
         elif command == "2":
-            print("========All groups=========")
-            for i in groups:
-                i.print_tasks()
-                print("\n")
+            print_all_groups(groups)
         
         elif command == "3":
-            for i in range(len(groups)):
-                print(i)    
-                groups[i].print_group()
-                print("+++++++++++++")
+            print_all_groups(groups)
             print("Enter which group you want to toggle to:")
             inp = int(input())
 
