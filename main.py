@@ -20,8 +20,12 @@ class Group:
     def add_task(self, task):
         self.tasks.append(task)
         return "Task added succesfully"
+    
+    def get_title(self):
+        return self.title
 
-    def print_tasks(self):
+    def print_group(self):
+        print("======== " + self.get_title() + " ========")    
         for i in self.tasks:
             print(i.get_desc() + " " + str(i.get_marked()))
 
@@ -45,6 +49,9 @@ class Task:
 def read_from_disk():
     pass
 
+def save_to_disk():
+    pass 
+
 def task_menu(group):
     
     while True:
@@ -65,7 +72,7 @@ def main_menu():
     command = ""
     while command != "0" or command != "exit":
         print("hello, I'm Moori!\nI'm here to help you doing your tasks\nWhat can I do for you?\n")
-        print("0 Exit\t1 Add new group\t2 Show all groups and tasks\n")
+        print("0- Exit\t1- Add new group\t2- Show all groups and tasks\n3- Toggle between groups")
 
         command = input()
 
@@ -77,15 +84,26 @@ def main_menu():
             group = task_menu(group)
             groups.append(group)
 
-        if command == "0" or command.lower() == "exit":
+        elif command == "0" or command.lower() == "exit":
             print("Exiting\n")
             break
 
-        if command == "2":
+        elif command == "2":
             print("========All groups=========")
             for i in groups:
                 i.print_tasks()
                 print("\n")
+        
+        elif command == "3":
+            for i in range(len(groups)):
+                print(i)    
+                groups[i].print_group()
+                print("+++++++++++++")
+            print("Enter which group you want to toggle to:")
+            inp = int(input())
+
+            group = groups[inp] 
+            print("You chose %s\nWhat you want to do with it?", group.get_title())
 
 if __name__ == "__main__" : 
     main_menu()
