@@ -10,6 +10,7 @@ class Group:
     def __init__(self, title):
         self.set_title(title)
         self.tasks = []
+        self.group_dict = {}
 
     def set_title(self, title):
         self.title = title
@@ -25,10 +26,23 @@ class Group:
     def get_title(self):
         return self.title
 
+    def get_tasks(self):
+        return self.tasks
+
     def print_group(self):
         print("======== " + self.get_title() + " ========")    
-        for i in self.tasks:
+        for i in self.get_tasks():
             print(str(i.get_marked()) + " " + i.get_desc())
+
+    def to_dict(self):
+        group_dict["title"] = self.get_title()
+        group_dict["tasks"] = [] 
+        for i in self.get_tasks():
+            task_dict[i.get_desc()] = i.get_marked()
+            group_dict["tasks"].append(task_dict)
+            group_dict.clear()
+
+        return group_dict
 
 class Task:
     def __init__(self, desc, marked=False):
@@ -52,9 +66,10 @@ def read_from_disk():
         pass
     f.close()
 
-def save_to_disk():
-    with open("moor.json", "w") as f:
-        pass
+def save_to_disk(groups):
+    with open("moor.json", "w") as json_file:
+        for i in groups:
+            json.dumps(i, json_file)
     f.close()
 
 def update_file():
@@ -103,6 +118,7 @@ def main_menu():
             groups.append(group)
 
         elif command == "0" or command.lower() == "exit":
+            save_to_disk(groups)
             print("Exiting")
             break
 
