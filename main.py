@@ -4,6 +4,7 @@
 #TODO: saving the info into json matters
 #TODO: adding the ability to set timer
 #TODO: Adding the colors styles needed to make the i/o more beautiful and emojies too
+import json
 
 class Group:
     def __init__(self, title):
@@ -47,10 +48,19 @@ class Task:
         return self.marked
 
 def read_from_disk():
-    pass
+    with open("moor.json", "r") as f:
+        pass
+    f.close()
 
 def save_to_disk():
-    pass 
+    with open("moor.json", "w") as f:
+        pass
+    f.close()
+
+def update_file():
+    with open("moor.json", "a") as f:
+        pass
+    f.close()
 
 def new_group():
     pass
@@ -105,7 +115,8 @@ def main_menu():
             inp = int(input())
 
             group = groups[inp] 
-            print("You chose %s\nWhat you want to do with it?", group.get_title())
+            print("You chose %s\nWhat you want to do with it?", group.get_title()) 
+            
 
 if __name__ == "__main__" : 
     main_menu()
