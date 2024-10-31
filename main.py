@@ -36,9 +36,9 @@ class Group:
 
     def to_dict(self):
         self.group_dict["title"] = self.get_title()
-        self.group_dict["tasks"] = []
         task_dict = {}
         for i in self.get_tasks():
+            self.group_dict["tasks"] = []
             task_dict[i.get_desc()] = i.get_marked()
             self.group_dict["tasks"].append(task_dict)
             task_dict.clear()
@@ -71,7 +71,8 @@ def read_from_disk():
 def save_to_disk(groups):
     with open("moor.json", "w") as json_file:
         for i in groups:
-            json.dumps(i, json_file)
+            json_group = json.dumps(i.to_dict())
+            json_file.write(json_group)
     json_file.close()
 
 def update_file():
@@ -154,6 +155,7 @@ def main_menu():
         elif command == "0" or command.lower() == "exit":
             save_to_disk(groups)
             print("Exiting")
+            save_to_disk(groups)
             break
 
         elif command == "2":
