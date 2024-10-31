@@ -41,9 +41,6 @@ class Group:
             self.group_dict["tasks"] = []
             task_dict[i.get_desc()] = i.get_marked()
             self.group_dict["tasks"].append(task_dict)
-            task_dict.clear()
-            self.group_dict.clear()
-
         return self.group_dict
 
 class Task:
@@ -73,6 +70,7 @@ def save_to_disk(groups):
         for i in groups:
             json_group = json.dumps(i.to_dict())
             json_file.write(json_group)
+            json_file.write(",\n")
     json_file.close()
 
 def update_file():
