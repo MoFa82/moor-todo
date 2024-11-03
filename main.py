@@ -4,6 +4,7 @@
 #TODO: saving the info into json matters
 #TODO: adding the ability to set timer
 #TODO: Adding the colors styles needed to make the i/o more beautiful and emojies too
+
 import json
 
 class Group:
@@ -31,8 +32,8 @@ class Group:
 
     def print_group(self):
         print("======== " + self.get_title() + " ========")
-        for i in self.get_tasks():
-            print(str(i.get_marked()) + " " + i.get_desc())
+        for i in range(len(self.get_tasks())):
+            print(str(i) + " " + str(self.get_tasks()[i].get_marked()) + " " + self.get_tasks()[i].get_desc())
 
     def to_dict(self):
         self.group_dict["title"] = self.get_title()
@@ -66,7 +67,7 @@ def read_from_disk():
     f.close()
 
 def save_to_disk(groups):
-    with open("moor.json", "w") as json_file:
+    with open("moor.json", "a") as json_file:
         for i in groups:
             json_group = json.dumps(i.to_dict())
             json_file.write(json_group)
@@ -87,14 +88,15 @@ def print_all_groups(groups):
         print(i)
         groups[i].print_group()
         print("+++++++++++++\n")
-        input("Enter proceed to menu")
+        input()
 
 def add_task_to_group(group):
     while True:
-        print("Enter the task to add to the group\nIf you do not want enter cancel")
+        print("\nEnter the task to add to the group\nIf you do not want enter cancel")
         inp = input()
         if inp == "cancel":
-            print("OK CANCELED!")
+            print("OK CANCELED!\n")
+            input()
             break
         else:
             task = Task(inp)
@@ -136,13 +138,13 @@ def main_menu():
     while command != "0" or command != "exit":
         print(ANT_ART)
         print("hello, I'm Moori!\nI'm here to help you doing your tasks\nWhat can I do for you?\n")
-        print("0- Exit\n1- Add new group\n2- Show all groups and tasks\n3- Toggle between groups")
+        print("0- Exit\n1- Add new group\n2- Show all groups and tasks\n3- Edit groups")
 
         command = input()
 
         if command == "1":
             # new_group()
-            print("Enter the title for the group:")
+            print("\nEnter the title for the group:")
             title = input()
             group = Group(title)
             group = add_task_to_group(group)
@@ -159,12 +161,39 @@ def main_menu():
 
         elif command == "3":
             print_all_groups(groups)
-            print("Enter which group you want to toggle to:")
+            print("Enter which group you want to conifg:")
             inp = int(input())
 
             group = groups[inp]
-            print("You chose %s\nWhat you want to do with it?", group.get_title())
 
+            print("You chose " + group.get_title() + "\nWhat you want to do with it?")
+            group.print_group()
+            print("\n0- Back\n1- Edit tasks\n2- Add tasks\n3- DELETE ENTIRE GROUP\n")
+            sub_command = input()
+
+            if sub_command == "1":
+                print("Enter the task you wanna change:")
+                task_to_change = int(input())
+                print("Enter the new decription:")
+                desc = input()
+                group.get_tasks()[task_to_change].set_desc(desc)
+                print("Task is edited\n")
+                input()
+
+            elif sub_command == "2":
+                print("\nEnter the task you want to add:")
+                the_task = input()
+                group.add_task(Task(the_task))
+                print("Task added\n")
+                input()
+
+            elif sub_command == "3":
+                del(groups[inp])
+                print("Deleted successfully\n")
+                input()
+
+            else:
+                continue
 
 if __name__ == "__main__" :
     main_menu()
