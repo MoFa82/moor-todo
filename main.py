@@ -1,9 +1,10 @@
 # a cli todo app with ant theme
 #TODO: consider making a menu class might be useful for future use
-#TODO: Get the ascii art of an ant
-#TODO: saving the info into json matters
 #TODO: adding the ability to set timer
 #TODO: Adding the colors styles needed to make the i/o more beautiful and emojies too
+#TODO: splitting the code into functions and into multiple files
+#TODO: Error handling for more robust coding
+#TODO: create the visuality to enter, proceed cancel and checkbox
 
 import json
 
@@ -67,7 +68,7 @@ def read_from_disk():
     f.close()
 
 def save_to_disk(groups):
-    with open("moor.json", "a") as json_file:
+    with open("moor.json", "w") as json_file:
         for i in groups:
             json_group = json.dumps(i.to_dict())
             json_file.write(json_group)
@@ -103,6 +104,11 @@ def add_task_to_group(group):
             print(group.add_task(task))
     return group
 
+def edit_group_menu():
+    pass
+
+def handle_index_error():
+    pass
 
 def main_menu():
     groups = []
@@ -168,7 +174,7 @@ def main_menu():
 
             print("You chose " + group.get_title() + "\nWhat you want to do with it?")
             group.print_group()
-            print("\n0- Back\n1- Edit tasks\n2- Add tasks\n3- DELETE ENTIRE GROUP\n")
+            print("\n0- Back\n1- Edit tasks\n2- Add tasks\n3- DELETE ENTIRE GROUP\n4- Check tasks as done\n")
             sub_command = input()
 
             if sub_command == "1":
@@ -191,6 +197,9 @@ def main_menu():
                 del(groups[inp])
                 print("Deleted successfully\n")
                 input()
+
+            elif sub_command == "4":
+                pass
 
             else:
                 continue
