@@ -199,7 +199,11 @@ def main_menu():
                 input()
 
             elif sub_command == "4":
-                pass
+                print("Enter the task you want to mark:")
+                the_task = int(input())
+                group.get_tasks()[the_task].mark()
+                print("Task was marked")
+                input()
 
             else:
                 continue
