@@ -1,7 +1,7 @@
 # a cli todo app with ant theme
 #TODO: consider making a menu class might be useful for future use
 #TODO: adding the ability to set timer
-#TODO: Adding the colors styles needed to make the i/o more beautiful and emojies too
+#TODO: Adding the colors styles and emojies needed to make the i/o more beautiful 
 #TODO: splitting the code into functions and into multiple files
 #TODO: Error handling for more robust coding
 #TODO: create the visuality to enter, proceed cancel and checkbox
@@ -32,9 +32,10 @@ class Group:
         return self.tasks
 
     def print_group(self):
+        emoji = {"True":"\U00002705", "False":"\U0000274C"}
         print("======== " + self.get_title() + " ========")
         for i in range(len(self.get_tasks())):
-            print(str(i) + " " + str(self.get_tasks()[i].get_marked()) + " " + self.get_tasks()[i].get_desc())
+            print(str(i) + " " + emoji[str(self.get_tasks()[i].get_marked())] + " " + self.get_tasks()[i].get_desc())
 
     def to_dict(self):
         self.group_dict["title"] = self.get_title()
@@ -68,15 +69,15 @@ def read_from_disk():
     f.close()
 
 def save_to_disk(groups):
-    with open("moor.json", "w") as json_file:
+    with open("moor.json", "a") as json_file:
         for i in groups:
             json_group = json.dumps(i.to_dict())
             json_file.write(json_group)
-            json_file.write(",\n")
+            json_file.write("\n")
     json_file.close()
 
 def update_file():
-    with open("moor.json", "a") as f:
+    with open("moor.json", "w") as f:
         pass
     f.close()
 
@@ -113,6 +114,7 @@ def handle_index_error():
 def main_menu():
     groups = []
     command = ""
+    ANT_EMOJIE = "\U0001F41C"
     ANT_ART = r"""
                            '=. \
                               \ /
@@ -143,7 +145,7 @@ def main_menu():
     """
     while command != "0" or command != "exit":
         print(ANT_ART)
-        print("hello, I'm Moori!\nI'm here to help you doing your tasks\nWhat can I do for you?\n")
+        print("hello, I'm Moori! " + ANT_EMOJIE + "\nI'm here to help you doing your tasks\nWhat can I do for you?\n")
         print("0- Exit\n1- Add new group\n2- Show all groups and tasks\n3- Edit groups")
 
         command = input()
