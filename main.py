@@ -9,7 +9,7 @@
 import json
 
 class Group:
-    def __init__(self, title):
+    def __init__(self, title, tasks=[]):
         self.set_title(title)
         self.tasks = []
         self.group_dict = {}
@@ -67,7 +67,6 @@ def read_from_disk():
     dict_groups = []
     with open("moor.json", "r") as f:
         for group in f:
-            print(group)
             dict_groups.append(json.loads(group))
     f.close()
     return dict_groups
@@ -85,19 +84,6 @@ def update_file():
         pass
     f.close()
 
-def new_group(dict_groups):
-    print(dict_groups)
-    groups = []
-    for i in dict_groups:
-        print(i)
-        group = Group(i['title'])
-        for j in i['tasks']:
-            print(j)
-            task = Task(j['desc'], j['marked'])
-            group.add_task(task)
-            groups.append(group)
-    return groups
-
 def print_all_groups(groups):
     print("========All groups=========")
     for i in range(len(groups)):
@@ -105,6 +91,16 @@ def print_all_groups(groups):
         groups[i].print_group()
         print("+++++++++++++\n")
         input()
+
+def new_group(dict_groups):
+    groups = []
+    for i in dict_groups:
+        group = Group(i['title'])
+        for j in i['tasks']:
+            task = Task(j['desc'], j['marked'])
+            group.add_task(task)
+        groups.append(group)
+    return groups
 
 def add_task_to_group(group):
     while True:
@@ -116,7 +112,7 @@ def add_task_to_group(group):
             break
         else:
             task = Task(inp)
-            print(group.add_task(task))
+            group.add_task(task)
     return group
 
 def edit_group_menu():
@@ -129,7 +125,7 @@ def main_menu():
     try:
         groups = new_group(read_from_disk())
     except KeyError:
-        pass
+        groups = []
     command = ""
     ANT_EMOJIE = "\U0001F41C"
     ANT_ART = r"""
@@ -175,7 +171,6 @@ def main_menu():
             groups.append(group)
 
         elif command == "0" or command.lower() == "exit":
-            save_to_disk(groups)
             print("Exiting")
             save_to_disk(groups)
             break
