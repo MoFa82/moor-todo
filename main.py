@@ -1,7 +1,7 @@
 # a cli todo app with ant theme
 #TODO: consider making a menu class might be useful for future use
 #TODO: adding the ability to set timer
-#TODO: Adding the colors styles and emojies needed to make the i/o more beautiful 
+#TODO: Adding the colors styles and emojies needed to make the i/o more beautiful
 #TODO: splitting the code into functions and into multiple files
 #TODO: Error handling for more robust coding
 #TODO: create the visuality to enter, proceed cancel and checkbox
@@ -19,11 +19,9 @@ class Group:
 
     def del_task(self, index):
         del(self.tasks[index])
-        return "Deleted the wanted task"
 
     def add_task(self, task):
         self.tasks.append(task)
-        return "Task added succesfully"
 
     def get_title(self):
         return self.title
@@ -40,9 +38,11 @@ class Group:
     def to_dict(self):
         self.group_dict["title"] = self.get_title()
         task_dict = {}
+        self.group_dict["tasks"] = []
         for i in self.get_tasks():
-            self.group_dict["tasks"] = []
-            task_dict[i.get_desc()] = i.get_marked()
+            task_dict = {}
+            task_dict["desc"] = i.get_desc()
+            task_dict["marked"] = i.get_marked()
             self.group_dict["tasks"].append(task_dict)
         return self.group_dict
 
@@ -64,12 +64,16 @@ class Task:
         return self.marked
 
 def read_from_disk():
+    dict_groups = []
     with open("moor.json", "r") as f:
-        pass
+        for group in f:
+            print(group)
+            dict_groups.append(json.loads(group))
     f.close()
+    return dict_groups
 
 def save_to_disk(groups):
-    with open("moor.json", "a") as json_file:
+    with open("moor.json", "w") as json_file:
         for i in groups:
             json_group = json.dumps(i.to_dict())
             json_file.write(json_group)
@@ -81,8 +85,18 @@ def update_file():
         pass
     f.close()
 
-def new_group():
-    pass
+def new_group(dict_groups):
+    print(dict_groups)
+    groups = []
+    for i in dict_groups:
+        print(i)
+        group = Group(i['title'])
+        for j in i['tasks']:
+            print(j)
+            task = Task(j['desc'], j['marked'])
+            group.add_task(task)
+            groups.append(group)
+    return groups
 
 def print_all_groups(groups):
     print("========All groups=========")
@@ -94,9 +108,9 @@ def print_all_groups(groups):
 
 def add_task_to_group(group):
     while True:
-        print("\nEnter the task to add to the group\nIf you do not want enter cancel")
+        print("\nEnter the task to add to the group\nIf you do not want click enter")
         inp = input()
-        if inp == "cancel":
+        if inp == "":
             print("OK CANCELED!\n")
             input()
             break
@@ -112,7 +126,10 @@ def handle_index_error():
     pass
 
 def main_menu():
-    groups = []
+    try:
+        groups = new_group(read_from_disk())
+    except KeyError:
+        pass
     command = ""
     ANT_EMOJIE = "\U0001F41C"
     ANT_ART = r"""
@@ -147,7 +164,6 @@ def main_menu():
         print(ANT_ART)
         print("hello, I'm Moori! " + ANT_EMOJIE + "\nI'm here to help you doing your tasks\nWhat can I do for you?\n")
         print("0- Exit\n1- Add new group\n2- Show all groups and tasks\n3- Edit groups")
-
         command = input()
 
         if command == "1":
