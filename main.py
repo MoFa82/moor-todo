@@ -1,11 +1,4 @@
 # a cli todo app with ant theme
-#TODO: consider making a menu class might be useful for future use
-#TODO: adding the ability to set timer
-#TODO: Adding the colors styles and emojies needed to make the i/o more beautiful
-#TODO: splitting the code into functions and into multiple files
-#TODO: Error handling for more robust coding
-#TODO: create the visuality to enter, proceed cancel and checkbox
-
 import json
 
 class Group:
@@ -129,6 +122,24 @@ def command_menu(ANT_ART, ANT_EMOJIE):
     command = input()
     return command
 
+def edit_task(group)
+    print("Enter the task you wanna change:")
+    task_to_change = int(input())
+    print("Enter the new decription:")
+    desc = input()
+    group.get_tasks()[task_to_change].set_desc(desc)
+    print("Task is edited\n")
+    input()
+    return group
+
+def add_task_menu(group):
+    print("\nEnter the task you want to add:")
+    the_task = input()
+    group.add_task(Task(the_task))
+    print("Task added\n")
+    input()
+    return group
+
 def edit_group_menu():
     pass
 
@@ -198,20 +209,10 @@ def main():
             sub_command = input()
 
             if sub_command == "1":
-                print("Enter the task you wanna change:")
-                task_to_change = int(input())
-                print("Enter the new decription:")
-                desc = input()
-                group.get_tasks()[task_to_change].set_desc(desc)
-                print("Task is edited\n")
-                input()
+                group = edit_task(group)
 
             elif sub_command == "2":
-                print("\nEnter the task you want to add:")
-                the_task = input()
-                group.add_task(Task(the_task))
-                print("Task added\n")
-                input()
+                group = add_task_menu(group)
 
             elif sub_command == "3":
                 del(groups[inp])
