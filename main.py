@@ -92,7 +92,7 @@ def print_all_groups(groups):
         print("+++++++++++++\n")
         input()
 
-def new_group(dict_groups):
+def create_group_from_disk(dict_groups):
     groups = []
     for i in dict_groups:
         group = Group(i['title'])
@@ -115,15 +115,29 @@ def add_task_to_group(group):
             group.add_task(task)
     return group
 
+def new_group():
+    print("\nEnter the title for the group:")
+    title = input()
+    group = Group(title)
+    group = add_task_to_group(group)
+    return group
+
+def command_menu(ANT_ART, ANT_EMOJIE):
+    print(ANT_ART)
+    print("hello, I'm Moori! " + ANT_EMOJIE + "\nI'm here to help you doing your tasks\nWhat can I do for you?\n")
+    print("0- Exit\n1- Add new group\n2- Show all groups and tasks\n3- Edit groups")
+    command = input()
+    return command
+
 def edit_group_menu():
     pass
 
 def handle_index_error():
     pass
 
-def main_menu():
+def main():
     try:
-        groups = new_group(read_from_disk())
+        groups = create_group_from_disk(read_from_disk())
     except KeyError:
         groups = []
     command = ""
@@ -156,19 +170,12 @@ def main_menu():
                   /_.-._/                      \_.-\
 
     """
+    command = command_menu(ANT_ART, ANT_EMOJIE)
+
     while command != "0" or command != "exit":
-        print(ANT_ART)
-        print("hello, I'm Moori! " + ANT_EMOJIE + "\nI'm here to help you doing your tasks\nWhat can I do for you?\n")
-        print("0- Exit\n1- Add new group\n2- Show all groups and tasks\n3- Edit groups")
-        command = input()
 
         if command == "1":
-            # new_group()
-            print("\nEnter the title for the group:")
-            title = input()
-            group = Group(title)
-            group = add_task_to_group(group)
-            groups.append(group)
+            groups.append(new_group())
 
         elif command == "0" or command.lower() == "exit":
             print("Exiting")
@@ -222,4 +229,4 @@ def main_menu():
                 continue
 
 if __name__ == "__main__" :
-    main_menu()
+    main()
