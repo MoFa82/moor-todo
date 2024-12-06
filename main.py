@@ -122,12 +122,17 @@ def command_menu(ANT_ART, ANT_EMOJIE):
     command = input()
     return command
 
-def edit_task(group)
+def edit_task(group):
     print("Enter the task you wanna change:")
     task_to_change = int(input())
     print("Enter the new decription:")
     desc = input()
-    group.get_tasks()[task_to_change].set_desc(desc)
+    try:
+        group.get_tasks()[task_to_change].set_desc(desc)
+    except IndexError:
+        print("Out of range!\n")
+        input()
+        return
     print("Task is edited\n")
     input()
     return group
@@ -149,7 +154,7 @@ def handle_index_error():
 def main():
     try:
         groups = create_group_from_disk(read_from_disk())
-    except KeyError:
+    except (KeyError, FileNotFoundError):
         groups = []
     command = ""
     ANT_EMOJIE = "\U0001F41C"
@@ -181,9 +186,9 @@ def main():
                   /_.-._/                      \_.-\
 
     """
-    command = command_menu(ANT_ART, ANT_EMOJIE)
 
     while command != "0" or command != "exit":
+        command = command_menu(ANT_ART, ANT_EMOJIE)
 
         if command == "1":
             groups.append(new_group())
@@ -200,8 +205,12 @@ def main():
             print_all_groups(groups)
             print("Enter which group you want to conifg:")
             inp = int(input())
-
-            group = groups[inp]
+            try:
+                group = groups[inp]
+            except IndexError:
+                print("Out of range\n")
+                input()
+                continue
 
             print("You chose " + group.get_title() + "\nWhat you want to do with it?")
             group.print_group()
@@ -215,14 +224,25 @@ def main():
                 group = add_task_menu(group)
 
             elif sub_command == "3":
-                del(groups[inp])
+                try:
+                    del(groups[inp])
+                except IndexError:
+                    print("Out of range!\n")
+                    input()
+                    continue
+
                 print("Deleted successfully\n")
                 input()
 
             elif sub_command == "4":
                 print("Enter the task you want to mark:")
                 the_task = int(input())
-                group.get_tasks()[the_task].mark()
+                try:
+                    group.get_tasks()[the_task].mark()
+                except IndexError:
+                    print("Out of range!\n")
+                    input()
+                    continue
                 print("Task was marked")
                 input()
 
