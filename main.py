@@ -1,5 +1,11 @@
 # a cli todo app with ant theme
 import json
+import colorama
+colorama.init(autoreset=True)
+from sys import platform
+if platform == "win32" or platform == "cgwin" or platform == "msys":
+    colorama.just_fix_windows_concole()
+MAIN_COLOR = colorama.Style.DIM + colorama.Back.BLUE
 
 class Group:
     def __init__(self, title, tasks=[]):
@@ -24,9 +30,9 @@ class Group:
 
     def print_group(self):
         emoji = {"True":"\U00002705", "False":"\U0000274C"}
-        print("======== " + self.get_title() + " ========")
+        print(colorama.Fore.CYAN +  "======== " + self.get_title() + " ========")
         for i in range(len(self.get_tasks())):
-            print(str(i) + " " + emoji[str(self.get_tasks()[i].get_marked())] + " " + self.get_tasks()[i].get_desc())
+            print(colorama.Fore.BLUE + str(i) + " " + emoji[str(self.get_tasks()[i].get_marked())] + " " + self.get_tasks()[i].get_desc())
 
     def to_dict(self):
         self.group_dict["title"] = self.get_title()
@@ -72,17 +78,12 @@ def save_to_disk(groups):
             json_file.write("\n")
     json_file.close()
 
-def update_file():
-    with open("moor.json", "w") as f:
-        pass
-    f.close()
-
 def print_all_groups(groups):
-    print("========All groups=========")
+    print(colorama.Fore.CYAN +  "========All groups=========")
     for i in range(len(groups)):
         print(i)
         groups[i].print_group()
-        print("+++++++++++++\n")
+        print(colorama.Fore.CYAN + "+++++++++++++\n")
         input()
 
 def create_group_from_disk(dict_groups):
@@ -97,10 +98,10 @@ def create_group_from_disk(dict_groups):
 
 def add_task_to_group(group):
     while True:
-        print("\nEnter the task to add to the group\nIf you do not want click enter")
+        print(MAIN_COLOR +  "\nEnter the task to add to the group\nIf you do not want click enter")
         inp = input()
         if inp == "":
-            print("OK CANCELED!\n")
+            print(colorama.Fore.LIGHTRED_EX + "OK CANCELED!\n")
             input()
             break
         else:
@@ -109,47 +110,41 @@ def add_task_to_group(group):
     return group
 
 def new_group():
-    print("\nEnter the title for the group:")
+    print(MAIN_COLOR + "\nEnter the title for the group:")
     title = input()
     group = Group(title)
     group = add_task_to_group(group)
     return group
 
 def command_menu(ANT_ART, ANT_EMOJIE):
-    print(ANT_ART)
-    print("hello, I'm Moori! " + ANT_EMOJIE + "\nI'm here to help you doing your tasks\nWhat can I do for you?\n")
-    print("0- Exit\n1- Add new group\n2- Show all groups and tasks\n3- Edit groups")
+    print(colorama.Fore.YELLOW + ANT_ART)
+    print(MAIN_COLOR + "hello, I'm Moori! " + ANT_EMOJIE + MAIN_COLOR + "\nI'm here to help you doing your tasks\nWhat can I do for you?\n")
+    print(MAIN_COLOR + "0- Exit\n1- Add new group\n2- Show all groups and tasks\n3- Edit groups")
     command = input()
     return command
 
 def edit_task(group):
-    print("Enter the task you wanna change:")
+    print(MAIN_COLOR + "Enter the task you wanna change:")
     task_to_change = int(input())
-    print("Enter the new decription:")
+    print(MAIN_COLOR + "Enter the new decription:")
     desc = input()
     try:
         group.get_tasks()[task_to_change].set_desc(desc)
     except IndexError:
-        print("Out of range!\n")
+        print(colorama.Fore.RED + "Out of range!\n")
         input()
         return
-    print("Task is edited\n")
+    print(colorama.Fore.GREEN + "Task is edited\n")
     input()
     return group
 
 def add_task_menu(group):
-    print("\nEnter the task you want to add:")
+    print(MAIN_COLOR + "\nEnter the task you want to add:")
     the_task = input()
     group.add_task(Task(the_task))
-    print("Task added\n")
+    print(colorama.Fore.GREEN + "Task added\n")
     input()
     return group
-
-def edit_group_menu():
-    pass
-
-def handle_index_error():
-    pass
 
 def main():
     try:
@@ -159,32 +154,11 @@ def main():
     command = ""
     ANT_EMOJIE = "\U0001F41C"
     ANT_ART = r"""
-                           '=. \
-                              \ /
-                           _,-=\/=._        _.-,_
-                          /         \      /=-._ '-.
-                         |=-./~\___/~\    /     `-.|_
-                         |   \o/   \o/   /         /
-                          \_   `~~~;/    |         |
-                            `~,._,-'    /          /
-                               | |      =-._      /
-                           _,-=/ \=-._     /|`-._/
-                         //           \   )\
-                        /|             |)_.'/
-                       //|             |\_.''   _.-\
-                      (|  \           /    _.`=    \
-                      ||   ":_    _.;"_.-;"   _.-=.:
-                   _-."/    / `-."\_."        =-_.;\
-                  `-_./   /             _.-=.    / \
-                         |              =-_.;\\ .'   \
-                         \                   \\/     \
-                         /\_                .'\\      \
-                        //  `=_         _.-"   \\      \
-                       //      `~-.=`"`'       ||      ||
-                       ||    _.-_/|            ||      |\_.-
-                   _.-_/|   /_.-._/            |\_._  \_.-.-\
-                  /_.-._/                      \_.-\
-
+                              _            _ 
+ _ __ ___   ___   ___  _ __  | |_ ___   __| | ___  
+| '_ ` _ \ / _ \ / _ \| '__| | __/ _ \ / _` |/ _ \ 
+| | | | | | (_) | (_) | |    | || (_) | (_| | (_) |
+|_| |_| |_|\___/ \___/|_|     \__\___/ \__,_|\___/
     """
 
     while command != "0" or command != "exit":
@@ -194,7 +168,7 @@ def main():
             groups.append(new_group())
 
         elif command == "0" or command.lower() == "exit":
-            print("Exiting")
+            print(MAIN_COLOR + "Exiting")
             save_to_disk(groups)
             break
 
@@ -203,18 +177,24 @@ def main():
 
         elif command == "3":
             print_all_groups(groups)
-            print("Enter which group you want to conifg:")
-            inp = int(input())
+            print(MAIN_COLOR + "Enter which group you want to config:")
+            
+            try:
+                inp = int(input())
+            except ValueError:
+                print(colorama.Fore.RED + "\nINVAlID\n")
+                continue 
+            
             try:
                 group = groups[inp]
             except IndexError:
-                print("Out of range\n")
+                print(colorama.Fore.RED + "\nOut of range\n")
                 input()
                 continue
 
-            print("You chose " + group.get_title() + "\nWhat you want to do with it?")
+            print(MAIN_COLOR + "You chose " + group.get_title() + MAIN_COLOR + "\nWhat you want to do with it?")
             group.print_group()
-            print("\n0- Back\n1- Edit tasks\n2- Add tasks\n3- DELETE ENTIRE GROUP\n4- Check tasks as done\n")
+            print(MAIN_COLOR + "\n0- Back\n1- Edit tasks\n2- Add tasks\n3- DELETE ENTIRE GROUP\n4- Check tasks as done")
             sub_command = input()
 
             if sub_command == "1":
@@ -227,23 +207,23 @@ def main():
                 try:
                     del(groups[inp])
                 except IndexError:
-                    print("Out of range!\n")
+                    print(colorama.Fore.RED + "Out of range!\n")
                     input()
                     continue
 
-                print("Deleted successfully\n")
+                print(colorama.Fore.GREEN + "Deleted successfully\n")
                 input()
 
             elif sub_command == "4":
-                print("Enter the task you want to mark:")
+                print(MAIN_COLOR + "\nEnter the task you want to mark:")
                 the_task = int(input())
                 try:
                     group.get_tasks()[the_task].mark()
                 except IndexError:
-                    print("Out of range!\n")
+                    print(colorama.Fore.RED + "Out of range!\n")
                     input()
                     continue
-                print("Task was marked")
+                print(colorama.Fore.GREEN + "Task was marked")
                 input()
 
             else:
