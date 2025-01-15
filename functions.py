@@ -10,6 +10,7 @@ def read_from_disk():
     f.close()
     return dict_groups
 
+# TODO: make save to disk into 2 function one for group and other for list
 def save_to_disk(groups):
     with open("moor.json", "w") as json_file:
         for i in groups:
@@ -50,9 +51,7 @@ def add_task_to_group(group):
             group.add_task(task)
     return group
 
-def new_group():
-    print(colorize.MAIN + "\nEnter the title for the group:")
-    title = input()
+def new_group(title):
     group = interface.Group(title)
     group = add_task_to_group(group)
     return group
@@ -68,21 +67,28 @@ def command_menu(ANT_ART, ANT_EMOJIE):
 3- Edit groups""")
     command = input()
     return command
-
-def edit_task(group):
-    print(colorize.MAIN + "Enter the task you wanna change:")
-    task_to_change = int(input())
-    print(colorize.MAIN + "Enter the new decription:")
-    desc = input()
+#BUG: does not change the task
+def edit_task(group, task_to_change, desc):
     try:
         group.get_tasks()[task_to_change].set_desc(desc)
     except IndexError:
         print(colorize.ERROR + "Out of range!\n")
         input()
-        return
-    print(colorize.SUC + "Task is edited\n")
-    input()
+        return 0
+
     return group
+
+def edit_task_menu(group):
+
+    print(colorize.MAIN + "Enter the task you wanna change:")
+    task_to_change = int(input())
+    print(colorize.MAIN + "Enter the new decription:")
+    desc = input()
+    group = edit_task(group, task_to_change, desc)
+    if group != 0:
+        print(colorize.SUC + "Task is edited\n")
+        input()
+        return group
 
 def add_task_menu(group):
     print(colorize.MAIN + "\nEnter the task you want to add:")
