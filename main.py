@@ -113,7 +113,7 @@ def arg_run(args=argv):
             edit {n} {command}: editing the group number {n}
                 add_task:
                 delete:
-                check_task:
+                mark_task:
                 edit_task: {m} {new_text}
             """)
 
@@ -123,34 +123,43 @@ def arg_run(args=argv):
         for i in argv[3:]:
             group.add_task(interface.Task(i))
         group.print_group()
-
-        with open("moor.json", "a") as json_file:
-            json_group = json.dumps(group.to_dict())
-            json_file.write(json_group)
-            json_file.write("\n")
-        json_file.close()
+        groups.append(group)
 
     elif argv[1] == "show_all":
         functions.print_all_groups(groups)
 
     elif argv[1] == "edit":
         if argv[3] == "edit_task":
-            groups[int(argv[2])] = functions.edit_task(groups[int(argv[2])], int(argv[4]), argv[5])
-            
+            try:
+                groups[int(argv[2])] = functions.edit_task(groups[int(argv[2])], int(argv[4]), argv[5])
+            except IndexError:
+                print(colorize.ERROR + "Out of range!\n")
+
         elif argv[3] == "add_task": 
-            group = groups[int(argv[2])]
-            group.add_task(interface.Task(argv[4]))
+            try:
+                group = groups[int(argv[2])]
+                group.add_task(interface.Task(argv[4]))
+            except IndexError:
+                print(colorize.ERROR + "Out of range!\n")
 
-        elif argv[3] == "check_task":
-            group = groups[int(argv[2])]
-            group.get_tasks()[int(argv[4])].mark()
-
+        elif argv[3] == "mark_task":
+            try:
+                group = groups[int(argv[2])]
+                group.mark_task(int(argv[4]))
+                print(colorize.SUC + "Task was marked")
+            
+            except IndexError:
+                print(colorize.ERROR + "Out of range!\n")
 
         else:
             print(colorize.ERROR + "Unknown command")
 
     elif argv[1] == "delete":
-        del(groups[int(argv[2])])
+        try:
+            del(groups[int(argv[2])])
+            print(colorize.SUC + "Deleted successfully\n")
+        except IndexError:
+            print(colorize.ERROR + "Out of range!\n")
 
     else:
         print(colorize.ERROR + "Unknown command")
