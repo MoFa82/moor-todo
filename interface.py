@@ -37,7 +37,9 @@ class Group:
             task_dict["marked"] = i.get_marked()
             self.group_dict["tasks"].append(task_dict)
         return self.group_dict
-    #TODO: add a function to mark
+    
+    def mark_task(self, index):
+        self.tasks[index].mark()
 
 class Task:
     def __init__(self, desc, marked=False):

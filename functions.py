@@ -10,7 +10,6 @@ def read_from_disk():
     f.close()
     return dict_groups
 
-# TODO: make save to disk into 2 function one for group and other for list
 def save_to_disk(groups):
     with open("moor.json", "w") as json_file:
         for i in groups:
@@ -67,7 +66,7 @@ def command_menu(ANT_ART, ANT_EMOJIE):
 3- Edit groups""")
     command = input()
     return command
-#BUG: does not change the task
+
 def edit_task(group, task_to_change, desc):
     try:
         group.get_tasks()[task_to_change].set_desc(desc)
@@ -79,7 +78,6 @@ def edit_task(group, task_to_change, desc):
     return group
 
 def edit_task_menu(group):
-
     print(colorize.MAIN + "Enter the task you wanna change:")
     task_to_change = int(input())
     print(colorize.MAIN + "Enter the new decription:")
