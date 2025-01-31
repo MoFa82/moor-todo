@@ -103,21 +103,22 @@ def main():
                 continue
 
 def arg_run(args=argv):
-
+    MAN = """
+help: showing all the methods available
+show_all or --ls : shows all the groups and tasks in order 
+delete or --rm {n}: delete the group n
+add_group --ag : create new group and add to previous
+edit {n} --e {command}: editing the group number {n}
+commands:
+    add_task or --at {m}
+    mark_task --mt {n}
+    edit_task --et {n} {new_text}
+"""
     groups = functions.create_group_from_disk(functions.read_from_disk())
     if argv[1] == "help" or argv[1] == "--h":
-        print("""
-            help: showing all the methods available
-            show_all: shows all the groups and tasks in order 
-            add_group: create new group and add to previous
-            edit {n} {command}: editing the group number {n}
-                add_task:
-                delete:
-                mark_task:
-                edit_task: {m} {new_text}
-            """)
+        print(colorize.HELP + MAN)
 
-    elif argv[1] == "add_group":
+    elif argv[1] == "add_group" or argv[1] == "--ag":
         tasks = []
         group = interface.Group(argv[2])
         for i in argv[3:]:
@@ -125,24 +126,24 @@ def arg_run(args=argv):
         group.print_group()
         groups.append(group)
 
-    elif argv[1] == "show_all":
+    elif argv[1] == "show_all" or argv[1] == "--ls":
         functions.print_all_groups(groups)
 
-    elif argv[1] == "edit":
-        if argv[3] == "edit_task":
+    elif argv[1] == "edit" or argv[1] == "--e":
+        if argv[3] == "edit_task" or argv[3] == "--et":
             try:
                 groups[int(argv[2])] = functions.edit_task(groups[int(argv[2])], int(argv[4]), argv[5])
             except IndexError:
                 print(colorize.ERROR + "Out of range!\n")
 
-        elif argv[3] == "add_task": 
+        elif argv[3] == "add_task" or argv[3] == "--at": 
             try:
                 group = groups[int(argv[2])]
                 group.add_task(interface.Task(argv[4]))
             except IndexError:
                 print(colorize.ERROR + "Out of range!\n")
 
-        elif argv[3] == "mark_task":
+        elif argv[3] == "mark_task" or argv[3] == "--mt":
             try:
                 group = groups[int(argv[2])]
                 group.mark_task(int(argv[4]))
@@ -154,7 +155,7 @@ def arg_run(args=argv):
         else:
             print(colorize.ERROR + "Unknown command")
 
-    elif argv[1] == "delete":
+    elif argv[1] == "delete" or argv[1] == "--rm":
         try:
             del(groups[int(argv[2])])
             print(colorize.SUC + "Deleted successfully\n")

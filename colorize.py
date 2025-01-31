@@ -5,4 +5,5 @@ TASK = Fore.BLUE
 SEP = Fore.CYAN
 ERROR = Fore.RED
 SUC = Fore.GREEN
-OBJECT = Fore.YELLOW
+HELP = Fore.YELLOW
+
