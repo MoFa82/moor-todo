@@ -57,3 +57,9 @@ class Task:
 
     def get_marked(self):
         return self.marked
+
+class Menu:
+    pass
+
+class Command:
+    pass 
