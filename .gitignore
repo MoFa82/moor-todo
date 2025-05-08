@@ -1,0 +1,4 @@
+.fuse_hidden
+__pycache__
+venv
+.venv
